@@ -15,31 +15,49 @@ class ViewController: UIViewController {
     @IBOutlet weak var rightTextField: UITextField!
     @IBOutlet weak var operandTextField: UITextField!
 
-    @IBAction func onCalculate(_ sender: Any) {
-        let left = Int(leftTextField.text!)
-        let right = Int(rightTextField.text!)
-        let op = operandTextField.text!
-        if (left == nil || right == nil) {
-            onError()
-            return
+    @IBAction func onCalculate() {
+        enum MathError: Error {
+            case wrongOperand, wrongOperator, divisionByZero
         }
 
-        var fun: (Int, Int) -> Int
-        switch op {
-        case "+": fun = { (_ a: Int, _ b: Int) -> Int in a + b }
-        case "-": fun = { (_ a: Int, _ b: Int) -> Int in a - b }
-        case "*": fun = { (_ a: Int, _ b: Int) -> Int in a * b }
-        case "/": fun = { (_ a: Int, _ b: Int) -> Int in a / b }
-        default:
-            onError()
-            return
+        do {
+            guard var op = Operator(rawValue: operandTextField.text ?? "") else { throw MathError.wrongOperator }
+
+            let left: Double
+            if op == .Dec && leftTextField.text ?? "" == "" {
+                op = .Negate
+                left = 0
+            } else {
+                guard let arg = Double(leftTextField.text ?? "") else { throw MathError.wrongOperand }
+                left = arg
+            }
+
+            guard let right = Double(rightTextField.text ?? "") else { throw MathError.wrongOperand }
+            if op == .Div && right == 0 { throw MathError.divisionByZero }
+            sumLabel.text = String(Operator.apply(left, right, op))
+        } catch {
+            sumLabel.text = "Wrong parameters"
         }
-
-        sumLabel.text = String(fun(left!, right!))
     }
 
-    func onError() {
-        sumLabel.text = "Wrong parameters"
-    }
+    enum Operator: String {
+        case Negate = "--"
+        case Add = "+"
+        case Dec = "-"
+        case Mul = "*"
+        case Div = "/"
+        case Mod = "%"
+
+        static func apply(_ value1: Double, _ value2: Double, _ op: Operator) -> Double {
+            switch op {
+            case .Negate: return -value2
+            case .Add: return value1 + value2
+            case .Dec: return value1 - value2
+            case .Mul: return value1 * value2
+            case .Div: return value1 / value2
+            case .Mod: return ((value1 / value2) - (value1 / value2).rounded(.towardZero)) * value2
+            }
+        }
+    } // enum
 }
 

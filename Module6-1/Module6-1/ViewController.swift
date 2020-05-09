@@ -14,13 +14,17 @@ class ViewController: UIViewController {
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var addButton: UIButton!
 
-    @IBAction func onTextChanged(_ sender: Any) {
-        addButton.isEnabled = !nameTextField.text!.isEmpty
+    @IBAction func onTextChanged() {
+        let text = nameTextField.text ?? ""
+        addButton.isEnabled = !text.isEmpty
     }
 
-    @IBAction func onButtonTouch(_ sender: Any) {
-        var str = namesLabel.text!
-        str += str.isEmpty ? nameTextField.text! : " " + nameTextField.text!
+    @IBAction func onButtonTouch() {
+        guard let text = nameTextField.text else {
+            return
+        }
+        var str = namesLabel.text ?? ""
+        str += str.isEmpty ? text : " " + text
         namesLabel.text = str
         nameTextField.text = ""
         addButton.isEnabled = false

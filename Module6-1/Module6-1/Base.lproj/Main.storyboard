@@ -27,7 +27,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Add name"/>
                                 <connections>
-                                    <action selector="onButtonTouch:" destination="BYZ-38-t0r" eventType="touchUpInside" id="A0Z-YG-BCC"/>
+                                    <action selector="onButtonTouch" destination="BYZ-38-t0r" eventType="touchUpInside" id="sux-oG-Wmj"/>
                                 </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Type name here" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Dqj-Nr-iT3">
@@ -36,7 +36,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
-                                    <action selector="onTextChanged:" destination="BYZ-38-t0r" eventType="editingChanged" id="Tk4-Wl-SpN"/>
+                                    <action selector="onTextChanged" destination="BYZ-38-t0r" eventType="editingChanged" id="UzI-nF-Kj1"/>
                                 </connections>
                             </textField>
                         </subviews>

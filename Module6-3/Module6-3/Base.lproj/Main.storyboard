@@ -39,7 +39,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Calculate"/>
                                 <connections>
-                                    <action selector="onCalculate:" destination="BYZ-38-t0r" eventType="touchUpInside" id="NGf-Or-mXN"/>
+                                    <action selector="onCalculate" destination="BYZ-38-t0r" eventType="touchUpInside" id="qto-yg-Sxg"/>
                                 </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZaS-NU-AIO">
