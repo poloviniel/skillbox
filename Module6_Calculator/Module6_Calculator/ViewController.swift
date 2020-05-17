@@ -23,7 +23,7 @@ class ViewController: UIViewController {
 
     @IBAction func onNumber(_ sender: UIButton) {
         guard let symbol = sender.titleLabel?.text else { return }
-        var str = m_resetDisplay ? "" : display.text ?? ""
+        var str = m_resetDisplay ? "0" : display.text ?? "0"
         m_resetDisplay = false
 
         if symbol != "," && str == "0" {
