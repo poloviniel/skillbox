@@ -18,10 +18,8 @@ class ViewControllerB2: UIViewController {
     @IBAction func onChange(_ sender: UIButton) {
         guard let color = sender.value(forKey: "colorValue") as? UIColor else {return }
         guard let str = sender.value(forKey: "colorString") as? String else {return }
-        if let delegate = delegate {
-            delegate.setColor(color, str)
-            dismiss(animated: true, completion: nil)
-        }
+        delegate?.setColor(color, str)
+        dismiss(animated: true, completion: nil)
     }
 
     func setColor(_ value: UIColor, _ name: String) {
@@ -37,6 +35,17 @@ class ViewControllerB2: UIViewController {
 }
 
 class ButtonExt: UIButton {
-    @IBInspectable var colorString = ""
-    @IBInspectable var colorValue = UIColor(red: 0, green: 0, blue: 0, alpha: 0)
+    @IBInspectable var colorString = "" {
+        didSet {
+            // не работает, кнопка не инициализирована
+            self.titleLabel?.text = colorString
+        }
+    }
+
+    @IBInspectable var colorValue = UIColor.black {
+        didSet {
+            // не работает, кнопка не инициализирована
+            self.titleLabel?.textColor = colorValue
+        }
+    }
 }

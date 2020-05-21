@@ -16,37 +16,55 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mwh-uX-Km5">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mwh-uX-Km5" customClass="ButtonExt" customModule="Module7" customModuleProvider="target">
                                 <rect key="frame" x="132" y="231.38028169014024" width="109" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
                                 <state key="normal" title="Зелёный">
-                                    <color key="titleColor" name="Color.Green"/>
+                                    <color key="titleColor" name="Color.Black"/>
                                 </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="colorString" value=""/>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="colorValue">
+                                        <color key="value" name="Color.Green"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <action selector="onButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ytf-mS-d9j"/>
+                                    <segue destination="riZ-E7-iMQ" kind="show" id="LBE-Sf-qP2"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hlW-25-bjc">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hlW-25-bjc" customClass="ButtonExt" customModule="Module7" customModuleProvider="target">
                                 <rect key="frame" x="148" y="312.38028169014024" width="79" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
                                 <state key="normal" title="Синий">
-                                    <color key="titleColor" name="Color.Blue"/>
+                                    <color key="titleColor" name="Color.Black"/>
                                 </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="colorString" value=""/>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="colorValue">
+                                        <color key="value" name="Color.Blue"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <action selector="onButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="b1U-Ib-ObN"/>
+                                    <segue destination="riZ-E7-iMQ" kind="show" id="VFP-bX-Mbw"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="opK-YV-8of">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="opK-YV-8of" customClass="ButtonExt" customModule="Module7" customModuleProvider="target">
                                 <rect key="frame" x="133" y="394.38028169014024" width="110" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
                                 <state key="normal" title="Красный">
-                                    <color key="titleColor" name="Color.Red"/>
+                                    <color key="titleColor" name="Color.Black"/>
                                 </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="colorString" value=""/>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="colorValue">
+                                        <color key="value" name="Color.Red"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <action selector="onButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ONN-Ya-T8R"/>
+                                    <segue destination="riZ-E7-iMQ" kind="show" id="kfy-M9-7JC"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -54,9 +72,6 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="sim-tg-Q9H"/>
-                    <connections>
-                        <segue destination="riZ-E7-iMQ" kind="show" identifier="showColor" id="1RM-09-zoY"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -357,6 +372,7 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="9WN-R7-xzi"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cuN-vo-H2q" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -364,10 +380,16 @@
             <point key="canvasLocation" x="222" y="918"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="LBE-Sf-qP2"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="1.circle" catalog="system" width="128" height="121"/>
         <image name="2.circle" catalog="system" width="128" height="121"/>
         <image name="3.circle" catalog="system" width="128" height="121"/>
+        <namedColor name="Color.Black">
+            <color red="0.0" green="0.0" blue="0.028000000864267349" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="Color.Blue">
             <color red="0.0" green="0.28400000929832458" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
@@ -375,13 +397,13 @@
             <color red="0.42300000786781311" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="Color.Purple">
-            <color red="0.84391981363296509" green="0.2113620936870575" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.84399998188018799" green="0.210999995470047" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="Color.Red">
             <color red="1" green="0.2370000034570694" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="Color.Yellow">
-            <color red="1" green="0.88247281312942505" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.88200002908706665" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

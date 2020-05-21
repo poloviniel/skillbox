@@ -11,15 +11,9 @@ import UIKit
 class ViewControllerA1: UIViewController {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let vc = segue.destination as? ViewControllerA2, segue.identifier == "showColor" {
-            guard let butt = sender as? UIButton else { return }
-            guard let color = butt.titleLabel?.textColor else { return }
-            vc.backColor = color
+        if let vc = segue.destination as? ViewControllerA2 /*, segue.identifier == ""*/ {
+            vc.backColor = (sender as? ButtonExt)?.colorValue ?? UIColor.black
         }
-    }
-
-    @IBAction func onButton(_ sender: UIButton) {
-        performSegue(withIdentifier: "showColor", sender: sender)
     }
 }
 
