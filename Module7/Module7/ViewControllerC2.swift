@@ -10,7 +10,7 @@ import UIKit
 
 class ViewControllerC2: UIViewController {
 
-    var delegate: ColorDelegate?
+    weak var delegate: ColorDelegate?
 
     @IBAction func onButton(_ sender: ButtonExt) {
         guard let color = sender.value(forKey: "colorValue") as? UIColor else { return }

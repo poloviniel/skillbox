@@ -8,13 +8,13 @@
 
 import UIKit
 
-protocol ColorDelegate {
+protocol ColorDelegate: class {
     func setColor(_ value: UIColor)
 }
 
 class ViewControllerC1: UIViewController, ColorDelegate {
 
-    private var childViewController: ViewControllerC2?
+    private weak var childViewController: ViewControllerC2?
 
     @IBAction func onButton(_ sender: ButtonExt) {
         guard let color = sender.value(forKey: "colorValue") as? UIColor else { return }
