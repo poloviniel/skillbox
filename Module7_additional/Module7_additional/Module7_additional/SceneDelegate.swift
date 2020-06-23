@@ -24,16 +24,42 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let mainVC = CustomContainerController2()
         mainVC.view.backgroundColor = UIColor.white
         mainVC.view.translatesAutoresizingMaskIntoConstraints = false
-        mainVC.addChildWithColor(UIColor.red)
-        mainVC.addChildWithColor(UIColor.orange)
-        mainVC.addChildWithColor(UIColor.yellow)
-        mainVC.addChildWithColor(UIColor.green)
-        mainVC.addChildWithColor(UIColor.cyan)
-        mainVC.addChildWithColor(UIColor.blue)
-        mainVC.addChildWithColor(UIColor.purple)
+        mainVC.addChildController(makeVC(UIColor.red))
+        mainVC.addChildController(makeVC(UIColor.orange))
+        mainVC.addChildController(makeVC(UIColor.yellow))
+        mainVC.addChildController(makeVC(UIColor.green))
+        mainVC.addChildController(makeVC(UIColor.cyan))
+        mainVC.addChildController(makeVC(UIColor.blue))
+        //mainVC.addChildController(makeVC(UIColor.purple)) // precondition жахнет, это седьмой
+
+        //mainVC.placeholder = makePlaceholder() // кастомный плейсходер пожалуйста
 
         window?.rootViewController = mainVC
         window?.makeKeyAndVisible()
+    }
+
+    private func makeVC(_ color: UIColor) -> UIViewController {
+        let vc = UIViewController()
+        vc.view.backgroundColor = color
+        vc.view.translatesAutoresizingMaskIntoConstraints = false
+        return vc
+    }
+
+    private func makePlaceholder() -> UIViewController {
+        let vc = UIViewController()
+        vc.view.translatesAutoresizingMaskIntoConstraints = false
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
+        label.font = UIFont(name: "Georgia", size: 40)
+        label.textColor = UIColor.gray
+        label.text = "NO CHILDS HERE"
+        vc.view.addSubview(label)
+        NSLayoutConstraint.activate([
+            label.centerXAnchor.constraint(equalTo: vc.view.centerXAnchor),
+            label.centerYAnchor.constraint(equalTo: vc.view.centerYAnchor)
+        ])
+        return vc
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

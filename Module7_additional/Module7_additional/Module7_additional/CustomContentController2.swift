@@ -14,15 +14,55 @@ class CustomContainerController2: UIViewController {
     private var childsStackView = UIStackView()
 
     private var childs: [UIViewController] = []
-    private var placeholder: UIViewController? // use getPlaceholder() only to access
+    private var _placeholder: UIViewController?
+
+    var placeholder: UIViewController {
+        set {
+            if let placeholder = _placeholder {
+                placeholder.willMove(toParent: nil)
+                placeholder.view.removeFromSuperview()
+                placeholder.removeFromParent()
+            }
+            _placeholder = newValue
+        }
+
+        get {
+            if let placeholder = _placeholder {
+                return placeholder
+            }
+
+            _placeholder = UIViewController()
+            if let placeholder = _placeholder {
+                placeholder.view.translatesAutoresizingMaskIntoConstraints = false
+                let label = UILabel()
+                label.translatesAutoresizingMaskIntoConstraints = false
+                label.textAlignment = .center
+                label.textColor = UIColor.lightGray
+                label.text = "Nothing to see here"
+                placeholder.view.addSubview(label)
+                NSLayoutConstraint.activate([
+                    label.centerXAnchor.constraint(equalTo: placeholder.view.centerXAnchor),
+                    label.centerYAnchor.constraint(equalTo: placeholder.view.centerYAnchor)
+                ])
+            }
+
+            return _placeholder!
+        }
+    }
+
+    private var setupDone = false
 
     override func viewSafeAreaInsetsDidChange() {
-        setup()
+        super.viewSafeAreaInsetsDidChange()
+        if !setupDone {
+            setup()
+            setupDone = true
+        }
     }
 
     private let buttonSize: CGFloat = 30
 
-    func setup() {
+    private func setup() {
         view.addSubview(buttonsStackView)
         buttonsStackView.axis = .horizontal
         buttonsStackView.distribution = .equalSpacing
@@ -38,7 +78,7 @@ class CustomContainerController2: UIViewController {
         childsStackView.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            buttonsStackView.topAnchor.constraint(equalTo: view.topAnchor, constant: view.safeAreaInsets.top),
+            buttonsStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             buttonsStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: buttonSize),
             buttonsStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -buttonSize),
             buttonsStackView.heightAnchor.constraint(equalToConstant: buttonSize),
@@ -48,39 +88,51 @@ class CustomContainerController2: UIViewController {
             childsStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
 
-        showChild(getPlaceholder())
+        showChild(placeholder, 0)
     }
 
-    func addChildWithColor(_ color: UIColor) {
-        if (childs.count >= 6) {
-            return
-        }
+    func addChildController(_ vc: UIViewController) {
+        precondition({childs.count < 6}(), "Too much controllers added, must not exceed 6")
+        //guard childs.count < 6 else { return }
 
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: buttonSize, height: buttonSize))
-        button.setImage(UIImage(systemName: "circle.fill"), for: UIControl.State.normal)
-        button.addTarget(self, action: #selector(CustomContainerController2.onButton(_:)), for: .touchUpInside)
-        button.tintColor = UIColor.gray
+        let button = UIButton(type: .custom)
+        button.frame = CGRect(x: 0, y: 0, width: buttonSize, height: buttonSize)
+        let normalImage = UIImage(systemName: "circle.fill")?.withTintColor(.gray).withRenderingMode(.alwaysOriginal)
+        button.setBackgroundImage(normalImage, for: .normal)
+        let selectedImage = UIImage(systemName: "circle.fill")?.withTintColor(vc.view.backgroundColor ?? UIColor.gray).withRenderingMode(.alwaysOriginal)
+        button.setBackgroundImage(selectedImage, for: .selected)
+        button.addTarget(self, action: #selector(onButton(_:)), for: .touchUpInside)
         button.tag = childs.count
         buttonsStackView.addArrangedSubview(button)
 
-        let vc = UIViewController()
-        vc.view.backgroundColor = color
-        vc.view.translatesAutoresizingMaskIntoConstraints = false
         childs.append(vc)
     }
 
-    func setPlaceholder(_ vc: UIViewController) {
-        placeholder = vc
-    }
-
-    private func showChild(_ child: UIViewController) {
-        if child != placeholder && placeholder?.parent != nil {
+    private func showChild(_ child: UIViewController, _ buttonTag: Int) {
+        if child != placeholder && placeholder.parent != nil {
             removePlaceholder()
         }
 
         addChild(child)
-        childsStackView.addArrangedSubview(child.view)
+        childsStackView.insertArrangedSubview(child.view, at: getProperIndex(buttonTag))
         child.didMove(toParent: self)
+    }
+
+    func getProperIndex(_ buttonTag: Int) -> Int {
+        var properIndex = 0, currentIndex = 0
+        for view in buttonsStackView.subviews {
+            guard let button = view as? UIButton else { continue }
+            if button.isSelected {
+                if button.tag >= buttonTag {
+                    properIndex = currentIndex
+                    break
+                } else {
+                    currentIndex += 1
+                }
+            }
+        }
+
+        return properIndex
     }
 
     private func hideChild(_ child: UIViewController) {
@@ -94,44 +146,17 @@ class CustomContainerController2: UIViewController {
     }
 
     @objc
-    func onButton(_ sender: UIButton) {
-        let disabled = sender.tintColor == UIColor.gray
-        sender.tintColor = disabled ? childs[sender.tag].view.backgroundColor : UIColor.gray
-        if disabled {
-            showChild(childs[sender.tag])
-        } else {
-            hideChild(childs[sender.tag])
-        }
+    private func onButton(_ sender: UIButton) {
+        sender.isSelected.toggle()
+        sender.isSelected ? showChild(childs[sender.tag], sender.tag) : hideChild(childs[sender.tag])
     }
 
-    func addPlaceholder() {
-        showChild(getPlaceholder())
+    private func addPlaceholder() {
+        showChild(placeholder, 0)
     }
 
-    func removePlaceholder() {
-        hideChild(getPlaceholder())
-    }
-
-    func getPlaceholder() -> UIViewController {
-        if placeholder != nil {
-            return placeholder!
-        }
-
-        placeholder = UIViewController()
-        if let placeholder = placeholder {
-            placeholder.view.translatesAutoresizingMaskIntoConstraints = false
-            let label = UILabel()
-            label.translatesAutoresizingMaskIntoConstraints = false
-            label.textAlignment = .center
-            label.textColor = UIColor.lightGray
-            label.text = "Nothing to see here"
-            placeholder.view.addSubview(label)
-            NSLayoutConstraint.activate([
-                label.centerXAnchor.constraint(equalTo: placeholder.view.centerXAnchor),
-                label.centerYAnchor.constraint(equalTo: placeholder.view.centerYAnchor)
-            ])
-        }
-        return placeholder!
+    private func removePlaceholder() {
+        hideChild(placeholder)
     }
 
 }
