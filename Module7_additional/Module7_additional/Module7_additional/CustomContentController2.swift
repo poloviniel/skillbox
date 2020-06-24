@@ -50,14 +50,9 @@ class CustomContainerController2: UIViewController {
         }
     }
 
-    private var setupDone = false
-
-    override func viewSafeAreaInsetsDidChange() {
-        super.viewSafeAreaInsetsDidChange()
-        if !setupDone {
-            setup()
-            setupDone = true
-        }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setup()
     }
 
     private let buttonSize: CGFloat = 30
@@ -108,22 +103,22 @@ class CustomContainerController2: UIViewController {
         childs.append(vc)
     }
 
-    private func showChild(_ child: UIViewController, _ buttonTag: Int) {
+    private func showChild(_ child: UIViewController, _ index: Int) {
         if child != placeholder && placeholder.parent != nil {
             removePlaceholder()
         }
 
         addChild(child)
-        childsStackView.insertArrangedSubview(child.view, at: getProperIndex(buttonTag))
+        childsStackView.insertArrangedSubview(child.view, at: getProperIndex(index))
         child.didMove(toParent: self)
     }
 
-    func getProperIndex(_ buttonTag: Int) -> Int {
+    func getProperIndex(_ index: Int) -> Int {
         var properIndex = 0, currentIndex = 0
         for view in buttonsStackView.subviews {
             guard let button = view as? UIButton else { continue }
             if button.isSelected {
-                if button.tag >= buttonTag {
+                if button.tag >= index {
                     properIndex = currentIndex
                     break
                 } else {
@@ -147,8 +142,9 @@ class CustomContainerController2: UIViewController {
 
     @objc
     private func onButton(_ sender: UIButton) {
+        let index = (buttonsStackView.subviews as? [UIButton])?.firstIndex(of: sender) ?? 0
         sender.isSelected.toggle()
-        sender.isSelected ? showChild(childs[sender.tag], sender.tag) : hideChild(childs[sender.tag])
+        sender.isSelected ? showChild(childs[index], index) : hideChild(childs[index])
     }
 
     private func addPlaceholder() {
