@@ -109,25 +109,8 @@ class CustomContainerController2: UIViewController {
         }
 
         addChild(child)
-        childsStackView.insertArrangedSubview(child.view, at: getProperIndex(index))
+        childsStackView.insertArrangedSubview(child.view, at: index)
         child.didMove(toParent: self)
-    }
-
-    func getProperIndex(_ index: Int) -> Int {
-        var properIndex = 0, currentIndex = 0
-        for view in buttonsStackView.subviews {
-            guard let button = view as? UIButton else { continue }
-            if button.isSelected {
-                if button.tag >= index {
-                    properIndex = currentIndex
-                    break
-                } else {
-                    currentIndex += 1
-                }
-            }
-        }
-
-        return properIndex
     }
 
     private func hideChild(_ child: UIViewController) {
@@ -142,9 +125,9 @@ class CustomContainerController2: UIViewController {
 
     @objc
     private func onButton(_ sender: UIButton) {
-        let index = (buttonsStackView.subviews as? [UIButton])?.firstIndex(of: sender) ?? 0
         sender.isSelected.toggle()
-        sender.isSelected ? showChild(childs[index], index) : hideChild(childs[index])
+        let index = (buttonsStackView.subviews as? [UIButton])?.filter { $0.isSelected }.firstIndex(of: sender) ?? 0
+        sender.isSelected ? showChild(childs[sender.tag], index) : hideChild(childs[sender.tag])
     }
 
     private func addPlaceholder() {
